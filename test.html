@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Kais Plasse | BTS SIO SISR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        },
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                            600: '#475569',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #8b5cf6, #c4b5fd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #c4b5fd);
+            border-radius: 2px;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #8b5cf6;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+        
+        .pdf-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 141.42%; /* A4 ratio */
+            overflow: hidden;
+        }
+        
+        .pdf-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #8b5cf6, #c4b5fd);
+            border-radius: 2px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #8b5cf6;
+            border: 4px solid #1e293b;
+        }
+        
+        .skill-bar {
+            height: 8px;
+            background-color: #334155;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #c4b5fd);
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+        
+        .project-card {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            border-color: #8b5cf6;
+        }
+        
+        .tech-tag {
+            background-color: rgba(139, 92, 246, 0.2);
+            border: 1px solid #8b5cf6;
+        }
+        
+        #backToTop {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6, #c4b5fd);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        
+        #backToTop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        #backToTop:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-dark-900/90 backdrop-blur-md z-50 border-b border-dark-700">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold gradient-text">Kais Plasse</a>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-gray-300 hover:text-white">Accueil</a>
+                    <a href="#about" class="nav-link text-gray-300 hover:text-white">À propos</a>
+                    <a href="#skills" class="nav-link text-gray-300 hover:text-white">Compétences</a>
+                    <a href="#projects" class="nav-link text-gray-300 hover:text-white">Projets</a>
+                    <a href="#experience" class="nav-link text-gray-300 hover:text-white">Expérience</a>
+                    <a href="#cv" class="nav-link text-gray-300 hover:text-white">CV</a>
+                    <a href="#veille" class="nav-link text-gray-300 hover:text-white">Veille</a>
+                    <a href="#patrimoine" class="nav-link text-gray-300 hover:text-white">Patrimoine</a>
+                </div>
+                
+                <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-4">
+                <a href="#home" class="block nav-link text-gray-300 hover:text-white">Accueil</a>
+                <a href="#about" class="block nav-link text-gray-300 hover:text-white">À propos</a>
+                <a href="#skills" class="block nav-link text-gray-300 hover:text-white">Compétences</a>
+                <a href="#projects" class="block nav-link text-gray-300 hover:text-white">Projets</a>
+                <a href="#experience" class="block nav-link text-gray-300 hover:text-white">Expérience</a>
+                <a href="#cv" class="block nav-link text-gray-300 hover:text-white">CV</a>
+                <a href="#veille" class="block nav-link text-gray-300 hover:text-white">Veille</a>
+                <a href="#patrimoine" class="block nav-link text-gray-300 hover:text-white">Patrimoine</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center pt-20">
+        <div class="container mx-auto px-6 py-20">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                        <span class="gradient-text">Kais Plasse</span>
+                    </h1>
+                    <h2 class="text-2xl md:text-3xl text-gray-300 mb-6">
+                        Étudiant en <span class="text-primary-400">BTS SIO</span> option <span class="text-primary-400">SISR</span>
+                    </h2>
+                    <p class="text-lg text-gray-400 mb-8 max-w-lg">
+                        Passionné par les réseaux, la cybersécurité et les systèmes d'information. 
+                        Je suis à la recherche d'opportunités pour mettre en pratique mes compétences 
+                        et continuer à apprendre dans ce domaine en constante évolution.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#about" class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition duration-300">
+                            En savoir plus
+                        </a>
+                        <a href="#contact" class="px-6 py-3 border border-primary-600 text-primary-400 hover:bg-primary-900/30 rounded-lg font-medium transition duration-300">
+                            Contact
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary-500 shadow-lg shadow-primary-500/20">
+                        <!-- Placeholder for profile image -->
+                        <title>Photo de Profil</title>
+                        <style>
+                            .w-full {
+                                width: 100%;
+                            }
+                            
+                            .h-full {
+                                height: 100%;
+                            }
+                            
+                            .bg-dark-700 {
+                                background-color: #333; /* Couleur de fond sombre */
+                            }
+                            
+                            .flex {
+                                display: flex;
+                            }
+                            
+                            .items-center {
+                                align-items: center;
+                            }
+                            
+                            .justify-center {
+                                justify-content: center;
+                            }
+                            
+                            .profile-photo {
+                                width: 350px; /* Taille du cercle */
+                                height: 350px;
+                                border-radius: 200%; /* Cercle parfait */
+                                overflow: hidden; /* Cache les parties débordantes de l'image */
+                                border: 3px solid #0078D7; /* Bordure stylisée */
+                                display: flex; /* Centrage de l'image */
+                                align-items: center;
+                                justify-content: center;
+                                background-color: #f0f0f0; /* Couleur de fond visible si pas d'image */
+                            }
+                    
+                            .profile-photo img {
+                                width: 100%; /* S'assure que l'image prend toute la largeur */
+                                height: 100%; /* S'assure que l'image prend toute la hauteur */
+                                object-fit: cover; /* Permet à l'image de remplir entièrement le cercle sans déformation */
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="w-full h-full bg-dark-700 flex items-center justify-center">
+                            <div class="profile-photo">
+                                <img src="pp.jpg" alt="Photo de Profil">
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-dark-800">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 section-title">
+                <span class="gradient-text">À propos</span>
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-primary-400">Mon parcours</h3>
+                    <p class="text-gray-400 mb-6">
+                        Je suis actuellement étudiant en deuxième année de BTS Services Informatiques aux Organisations 
+                        option Solutions d'Infrastructure, Systèmes et Réseaux (SISR). Passionné par les technologies 
+                        de l'information depuis mon plus jeune âge, j'ai choisi cette voie pour approfondir mes connaissances 
+                        dans les domaines des réseaux, des systèmes et de la sécurité informatique.
+                    </p>
+                    <p class="text-gray-400 mb-6">
+                        Mon objectif est de devenir administrateur systèmes et réseaux, avec une spécialisation en cybersécurité. 
+                        Je suis particulièrement intéressé par les architectures réseau, les systèmes d'exploitation serveur 
+                        et les bonnes pratiques de sécurisation des infrastructures.
+                    </p>
+                    <p class="text-gray-400">
+                        En dehors de mes études, j'aime me tenir informé des dernières tendances technologiques, participer à des 
+                        challenges de sécurité.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-primary-400">Formation</h3>
+                    <div class="space-y-8">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="bg-dark-700 rounded-lg p-6 shadow-lg">
+                                <h4 class="text-xl font-semibold text-primary-400 mb-2">BTS SIO - Option SISR</h4>
+                                <p class="text-gray-400 mb-2">Business School By CSND, 2023 - 2025</p>
+                                <p class="text-gray-300">
+                                    Formation axée sur les solutions d'infrastructure, systèmes et réseaux. 
+                                    Acquisition de compétences en administration réseau, virtualisation, 
+                                    systèmes d'exploitation serveur et sécurité informatique.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="bg-dark-700 rounded-lg p-6 shadow-lg">
+                                <h4 class="text-xl font-semibold text-primary-400 mb-2">Baccalauréat Pro SN</h4>
+                                <p class="text-gray-400 mb-2">Lycée Téchnique Louis Armand, 2020 - 2023</p>
+                                <p class="text-gray-300">
+                                    Obtention du baccalauréat avec mention. Spécialités en SN 
+                                    qui m'a permis de développer mon esprit d'analyse.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 section-title">
+                <a href="C:\Users\kaisp\OneDrive\Bureau\Portfolio\Comp.jpg" target="_blank" class="gradient-text">Compétences</a>
+
+            </h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Réseaux -->
+                <div class="bg-dark-800 rounded-xl p-6 shadow-lg card-hover">
+                    <div class="text-primary-500 mb-4">
+                        <i class="fas fa-network-wired text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-white">Réseaux</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-gray-400 mb-1">TCP/IP, VLAN, Routage</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 mb-1">Wi-Fi, VPN</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 mb-1">Cisco, PfSense</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Systèmes -->
+                <div class="bg-dark-800 rounded-xl p-6 shadow-lg card-hover">
+                    <div class="text-primary-500 mb-4">
+                        <i class="fas fa-server text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-white">Systèmes</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-gray-400 mb-1">Windows Server</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 mb-1">Linux (Debian/Ubuntu)</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 mb-1">Virtualisation</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sécurité -->
+                <div class="bg-dark-800 rounded-xl p-6 shadow-lg card-hover">
+                    <div class="text-primary-500 mb-4">
+                        <i class="fas fa-shield-alt text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-white">Sécurité</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-gray-400 mb-1">Pare-feu, IDS/IPS</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 mb-1">Sécurisation SI</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+        <div>
+                            <p class="text-gray-400 mb-1">Bonnes pratiques</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Outils & Certifications -->
+                <div class="bg-dark-800 rounded-xl p-6 shadow-lg card-hover">
+                    <div class="text-primary-500 mb-4">
+                        <i class="fas fa-tools text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-white">Outils & Certifications</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-gray-400 mb-1">Cisco CCNA (en cours)</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 mb-1">Wireshark, GNS3</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 mb-1">Office, PowerShell</p>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-dark-800">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 section-title">
+                <span class="gradient-text">Projets</span>
+            </h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Projet 1 -->
+                <div class="project-card rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-primary-500/20">
+                    <div class="h-48 bg-dark-700 flex items-center justify-center">
+                        <i class="fas fa-network-wired text-6xl text-primary-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-white">Déploiement d'un réseau d'entreprise</h3>
+                        <p class="text-gray-400 mb-4">
+                            Conception et implémentation d'une infrastructure réseau complète pour une entreprise fictive, 
+                            création de sytème d'administration, de serveur et utilisateurs et sécurisation.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">Cisco</span>
+                            <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">VLAN</span>
+                            <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">PfSense</span>
+                        </div>
+                        <button 
+                        onclick="window.open('/C:/Users/kaisp/OneDrive/Bureau/Portfolio/Novatech.pdf', '_blank')" 
+                        class="w-full py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition duration-300">
+                        Voir le projet
+                        </button>
+                    
+                        </div>
+                    </div>
+                
+                <!-- Projet 2 -->
+                <div class="project-card rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-primary-500/20">
+                    <div class="h-48 bg-dark-700 flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-6xl text-primary-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-white">Plan de Secours pour le Laboratoire GSB</h3>
+                        <p class="text-gray-400 mb-4">
+                            Un plan de secours est une stratégie détaillée pour gérer les situations d'urgence afin de protéger les personnes,
+                             les données et les opérations d'un laboratoire. Il inclut l'évaluation des risques, les procédures d'urgence, 
+                             la formation du personnel et des mesures pour garantir la continuité des activités.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">Plan de Continuation d'Activité</span>
+                            <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">Plan de Reprise d'Activité</span>
+                            <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">Identification des Sinistre</span>
+                        </div>
+                         <button 
+                            onclick="window.open('/C:/Users/kaisp/OneDrive/Bureau/Portfolio/Kais Plasse Tp Plan de Secours pour le Laboratoire GSB.pdf', '_blank')" 
+                         class="w-full py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition duration-300">
+                         Voir le projet
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Projet 3 -->
+                <div class="project-card rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-primary-500/20">
+                    <div class="h-48 bg-dark-700 flex items-center justify-center">
+                        <i class="fas fa-cloud text-6xl text-primary-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-white">DHCP RELAIS</h3>
+                        <p class="text-gray-400 mb-4">
+                            Un client DHCP utilise des adresses IP de broadcast pour localiser le serveur DHCP. Cependant,
+                            ces adresses de broadcast n’étant pas transmises par les routeurs, les stations de travail ne
+                            pourront pas localiser le serveur DHCP dans le cas du LAN distant. Vous devez configurer le routeur
+                            à l’aide de la commande ip helper-address pour activer la transmission de ces adresses de
+                            broadcast au serveur concerné, sous forme de paquets unicast. 
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">DHCP</span>
+                            <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">RELAIS</span>
+                            <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">Routeur</span>
+                        </div>
+                        <button 
+                            onclick="window.open('C:/Users/kaisp/OneDrive/Bureau/Portfolio/DHCP RELAIS.pdf', '_blank')" 
+                            class="w-full py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition duration-300">
+                             Voir le projet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 section-title">
+                <span class="gradient-text">Expérience</span>
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Stage 1ère année -->
+                <div class="bg-dark-800 rounded-xl p-8 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-primary-600 p-3 rounded-lg mr-4">
+                            <i class="fas fa-briefcase text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-white">Stage 1ère année - LTS</h3>
+                    </div>
+                    
+                    <p class="text-gray-400 mb-6">
+                        Stage de 6 semaines effectué chez LTS en tant qu'assistant administrateur systèmes et réseaux. 
+                        Participation à la gestion du parc informatique, aux déploiements de postes de travail 
+                        et à la maintenance des serveurs.
+                    </p>
+                    
+                    <h4 class="text-lg font-medium text-primary-400 mb-3">Missions principales :</h4>
+                    <ul class="text-gray-400 mb-6 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                            <span>Ventes et Conseils</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                            <span>Réparations et Montage</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                            <span>Sauvegardes et Réinstallation</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="window.open('/C:/Users/kaisp/OneDrive/Bureau/Portfolio/Stage%201.pdf', '_blank')" 
+                        class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition duration-300">
+                        Voir le rapport
+                        </button>
+                        <button onclick="openModal('justificatif-lts')" class="px-4 py-2 border border-primary-600 text-primary-400 hover:bg-primary-900/30 rounded-lg transition duration-300">
+                            Justificatif de stage
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Stage 2ème année -->
+                <div class="bg-dark-800 rounded-xl p-8 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-primary-600 p-3 rounded-lg mr-4">
+                            <i class="fas fa-briefcase text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-white">Stage 2ème année - SGI</h3>
+                    </div>
+                    
+                    <p class="text-gray-400 mb-6">
+                        Stage de 6 semaines effectué chez SGI. 
+                        Participation à de l'initiation à l'informatique pour les segniors, au Référencement de site 
+                        et Développement.
+                    </p>
+                    
+                    <h4 class="text-lg font-medium text-primary-400 mb-3">Missions principales :</h4>
+                    <ul class="text-gray-400 mb-6 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                            <span>Analyse Concurentielle Et Cartographie Des Commerces Locaux</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                            <span>Développement D'Un Programme D'Extraction De Données Via Api</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                            <span>Audit De Référencement Et Optimisation De La Présence En Ligne</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <button 
+                          onclick="window.open('/C:/Users/kaisp/OneDrive/Bureau/Portfolio/Rapport%20de%20stage.pdf', '_blank')" 
+                            class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition duration-300">
+                            Voir le rapport
+                        </button>
+
+                        <button onclick="openModal('justificatif-sgi')" class="px-4 py-2 border border-primary-600 text-primary-400 hover:bg-primary-900/30 rounded-lg transition duration-300">
+                            Justificatif de stage
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CV Section -->
+    <section id="cv" class="py-20 bg-dark-800">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 section-title">
+                <span class="gradient-text">Curriculum Vitae</span>
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-primary-400">Mon parcours professionnel</h3>
+                    <p class="text-gray-400 mb-6">
+                        Vous trouverez ici mon CV complet, présentant mon parcours académique, mes expériences 
+                        professionnelles, mes compétences techniques et mes centres d'intérêt.
+                    </p>
+                    <p class="text-gray-400 mb-8">
+                        Le document est disponible en téléchargement et peut être visualisé directement 
+                        via le lecteur PDF intégré.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <button 
+                            onclick="window.open('/C:/Users/kaisp/OneDrive/Bureau/Portfolio/CV%20kais.pdf', '_blank')" 
+                            class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition duration-300">
+                             Voir mon CV
+                    </button>
+
+                    
+                        </button>
+                        <a href="C:\Users\kaisp\OneDrive\Bureau\Portfolio\CV kais.pdf" download="CV_Kais_Plasse.pdf" class="px-6 py-3 border border-primary-600 text-primary-400 hover:bg-primary-900/30 rounded-lg font-medium transition duration-300">
+                            Télécharger
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="bg-dark-700 rounded-xl p-1 shadow-lg">
+                    <div class="pdf-container rounded-lg overflow-hidden">
+                        <!-- Remplacez le chemin ci-dessous par le chemin vers votre fichier PDF -->
+                        <iframe src="C:\Users\kaisp\OneDrive\Bureau\Portfolio\CV kais.pdf" type="application/pdf"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Veille Technologique Section -->
+    <section id="veille" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 section-title">
+                <span class="gradient-text">Veille Technologique</span>
+            </h2>
+            
+            <div class="bg-dark-800 rounded-xl p-8 shadow-lg">
+                <div class="flex items-center mb-8">
+                    <div class="bg-primary-600 p-3 rounded-lg mr-4">
+                        <i class="fas fa-binoculars text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-white">Ma veille technologique</h3>
+                </div>
+                
+                <p class="text-gray-400 mb-6">
+                    Dans le cadre de ma formation et par passion personnelle, je mène une veille technologique 
+                    active sur plusieurs sujets en rapport avec les systèmes, les réseaux et la sécurité informatique.
+                </p>
+                
+                <h4 class="text-lg font-medium text-primary-400 mb-3">Thèmes suivis :</h4>
+                <ul class="text-gray-400 mb-6 space-y-2">
+                    <li class="flex items-start">
+                        <i class="fas fa-arrow-right text-primary-500 mt-1 mr-2"></i>
+                        <span>Évolutions des protocoles réseau (IPv6, QUIC, etc.)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-arrow-right text-primary-500 mt-1 mr-2"></i>
+                        <span>Nouvelles vulnérabilités et techniques de protection</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-arrow-right text-primary-500 mt-1 mr-2"></i>
+                        <span>Développements en matière de cloud hybride</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-arrow-right text-primary-500 mt-1 mr-2"></i>
+                        <span>Automatisation et infrastructure as code</span>
+                    </li>
+                </ul>
+                
+                <h4 class="text-lg font-medium text-primary-400 mb-3">Outils utilisés :</h4>
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <div class="flex items-center bg-dark-700 px-4 py-2 rounded-lg">
+                        <i class="fab fa-twitter text-primary-500 mr-2"></i>
+                        <span class="text-gray-300">Twitter</span>
+                    </div>
+                    <div class="flex items-center bg-dark-700 px-4 py-2 rounded-lg">
+                        <i class="fas fa-rss text-primary-500 mr-2"></i>
+                        <span class="text-gray-300">Flux RSS</span>
+                    </div>
+                    <div class="flex items-center bg-dark-700 px-4 py-2 rounded-lg">
+                        <i class="fab fa-reddit text-primary-500 mr-2"></i>
+                        <span class="text-gray-300">Reddit</span>
+                    </div>
+                    <div class="flex items-center bg-dark-700 px-4 py-2 rounded-lg">
+                        <i class="fas fa-newspaper text-primary-500 mr-2"></i>
+                        <span class="text-gray-300">Newsletters</span>
+                    </div>
+                </div>
+                
+                <button 
+                 onclick="window.open('C:/Users/kaisp/OneDrive/Bureau/Portfolio/Veille-Technologique-Systemes-Reseaux-et-Securite-Informatique.pdf')" 
+                 class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition duration-300">
+                    Voir les détails de ma veille
+                 </button>
+            
+            </div>
+        </div>
+    </section>
+
+    <!-- Patrimoine Informatique Section -->
+    <section id="patrimoine" class="py-20 bg-dark-800">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 section-title">
+                <span class="gradient-text">Patrimoine Informatique</span>
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-primary-400">Mon lab personnel</h3>
+                    <p class="text-gray-400 mb-6">
+                        Dans le cadre de mon apprentissage et par passion, j'ai constitué un petit laboratoire 
+                        informatique personnel me permettant d'expérimenter avec différentes technologies 
+                        et de tester des configurations avant leur mise en œuvre en environnement professionnel.
+                    </p>
+                    
+                    <h4 class="text-lg font-medium text-primary-400 mb-3">Équipements :</h4>
+                    <ul class="text-gray-400 mb-6 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-server text-primary-500 mt-1 mr-2"></i>
+                            <span>Serveur HP ProLiant avec ESXi pour la virtualisation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-network-wired text-primary-500 mt-1 mr-2"></i>
+                            <span>Switch Cisco Catalyst 2960 pour les expérimentations réseau</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-shield-alt text-primary-500 mt-1 mr-2"></i>
+                            <span>PfSense pour les tests de pare-feu et VPN</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-desktop text-primary-500 mt-1 mr-2"></i>
+                            <span>Postes de test avec Windows/Linux en dual boot</span>
+                        </li>
+                    </ul>
+                </div>
+                
+            
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 section-title">
+                <span class="gradient-text">Contact</span>
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-primary-400">Me contacter</h3>
+                    <p class="text-gray-400 mb-8">
+                        Vous souhaitez me contacter pour une opportunité professionnelle, un projet 
+                        ou simplement échanger sur des sujets techniques ? N'hésitez pas à m'envoyer 
+                        un message via ce formulaire ou directement par email.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center">
+                            <div class="bg-primary-600 p-3 rounded-lg mr-4">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <a href="mailto:kais.plasse@gmail.com" class="text-gray-300 hover:text-primary-400 transition duration-300">kais.plasse@gmail.com</a>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="bg-primary-600 p-3 rounded-lg mr-4">
+                                <i class="fas fa-phone-alt text-white"></i>
+                            </div>
+                            <span class="text-gray-300">+33 6 41 56 64 91</span>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="bg-primary-600 p-3 rounded-lg mr-4">
+                                <i class="fas fa-map-marker-alt text-white"></i>
+                            </div>
+                            <span class="text-gray-300">Villefranche sur Saône, France</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4 mt-8">
+                        <a href="https://www.linkedin.com/in/ka%C3%AFs-plasse-ba1110293/" class="bg-dark-700 hover:bg-primary-600 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                            <i class="fab fa-linkedin-in text-white"></i>
+                        </a>
+                        <a href="https://github.com/PurpleSmoke667" class="bg-dark-700 hover:bg-primary-600 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                            <i class="fab fa-github text-white"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="bg-dark-800 rounded-xl p-8 shadow-lg">
+                    <form id="contactForm" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-gray-300 mb-2">Nom complet</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-white" required>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-gray-300 mb-2">Email</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-white" required>
+                        </div>
+                        
+                        <div>
+                            <label for="subject" class="block text-gray-300 mb-2">Sujet</label>
+                            <input type="text" id="subject" name="subject" class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-white" required>
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-gray-300 mb-2">Message</label>
+                            <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-white" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition duration-300">
+                            Envoyer le message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-900 py-12 border-t border-dark-800">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="text-2xl font-bold gradient-text">Kais Plasse</a>
+                    <p class="text-gray-500 mt-2">Étudiant en BTS SIO option SISR</p>
+                </div>
+                
+                <div class="flex flex-col items-center md:items-end">
+                    <div class="flex space-x-6 mb-4">
+                        <a href="#home" class="text-gray-400 hover:text-primary-400 transition duration-300">Accueil</a>
+                        <a href="#about" class="text-gray-400 hover:text-primary-400 transition duration-300">À propos</a>
+                        <a href="#projects" class="text-gray-400 hover:text-primary-400 transition duration-300">Projets</a>
+                        <a href="#contact" class="text-gray-400 hover:text-primary-400 transition duration-300">Contact</a>
+                    </div>
+                    
+                    <p class="text-gray-500 text-sm">
+                        &copy; 2025 Kais Plasse. Tous droits réservés.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-dark-900 opacity-90"></div>
+            </div>
+            
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <div id="modalContent" class="inline-block align-bottom bg-dark-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <div class="px-6 py-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="modalTitle" class="text-2xl font-bold text-white"></h3>
+                        <button onclick="closeModal()" class="text-gray-400 hover:text-white">
+                            <i class="fas fa-times text-2xl"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="modalBody" class="mt-4">
+                        <!-- Content will be loaded here -->
+                    </div>
+                    
+                    <div class="mt-6 flex justify-end">
+                        <button onclick="closeModal()" class="px-4 py-2 border border-primary-600 text-primary-400 hover:bg-primary-900/30 rounded-lg transition duration-300">
+                            Fermer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Back to top button
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Modal functions
+        function openModal(contentId) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            // Set modal content based on the contentId
+            switch(contentId) {
+                case 'projet1':
+                    modalTitle.textContent = 'Déploiement réseau d\'entreprise';
+                    modalBody.innerHTML = `
+                        <div class="space-y-6">
+                            <div class="bg-dark-700 rounded-lg p-4">
+                                <h4 class="text-lg font-semibold text-primary-400 mb-2">Contexte</h4>
+                                <p class="text-gray-400">
+                                    Projet réalisé dans le cadre de ma formation BTS SIO, simulant le déploiement d'une infrastructure réseau 
+                                    pour une PME de 50 employés avec plusieurs services (direction, comptabilité, production, etc.).
+                                </p>
+                            </div>
+                            
+                            <div class="bg-dark-700 rounded-lg p-4">
+                                <h4 class="text-lg font-semibold text-primary-400 mb-2">Technologies utilisées</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">Cisco IOS</span>
+                                    <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">VLAN</span>
+                                    <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">PfSense</span>
+                                    <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">ACL</span>
+                                    <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">GNS3</span>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-dark-700 rounded-lg p-4">
+                                <h4 class="text-lg font-semibold text-primary-400 mb-2">Résultats</h4>
+                                <ul class="text-gray-400 space-y-2">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                                        <span>Implémentation de 5 VLAN pour segmenter le réseau par service</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                                        <span>Configuration du routage inter-VLAN sur un switch layer 3</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                                        <span>Mise en place de règles de pare-feu pour sécuriser les échanges</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                                        <span>Documentation complète de l'infrastructure</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-dark-700 rounded-lg p-4">
+                                <h4 class="text-lg font-semibold text-primary-400 mb-2">Documentation</h4>
+                                <div class="pdf-container rounded-lg overflow-hidden">
+                                    <div class="w-full h-full bg-dark-800 flex flex-col items-center justify-center">
+                                        <i class="fas fa-file-pdf text-6xl text-primary-500 mb-4"></i>
+                                        <p class="text-gray-400">Documentation du projet (PDF)</p>
+                                    </div>
+                                </div>
+                                <button class="w-full mt-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition duration-300">
+                                    Télécharger la documentation
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'projet2':
+                    modalTitle.textContent = 'Sécurisation d\'un SI';
+                    modalBody.innerHTML = `
+                        <div class="space-y-6">
+                            <div class="bg-dark-700 rounded-lg p-4">
+                                <h4 class="text-lg font-semibold text-primary-400 mb-2">Contexte</h4>
+                                <p class="text-gray-400">
+                                    Audit de sécurité réalisé sur un système d'information fictif avec identification des vulnérabilités 
+                                    et proposition de mesures correctives pour améliorer la posture de sécurité.
+                                </p>
+                            </div>
+                            
+                            <div class="bg-dark-700 rounded-lg p-4">
+                                <h4 class="text-lg font-semibold text-primary-400 mb-2">Technologies utilisées</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">Nessus</span>
+                                    <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">Wireshark</span>
+                                    <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">Windows Server</span>
+                                    <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">GPO</span>
+                                    <span class="tech-tag px-3 py-1 rounded-full text-xs text-primary-400">PfSense</span>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-dark-700 rounded-lg p-4">
+                                <h4 class="text-lg font-semibold text-primary-400 mb-2">Actions réalisées</h4>
+                                <ul class="text-gray-400 space-y-2">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                                        <span>Analyse des vulnérabilités avec un scanner dédié</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                                        <span>Mise en place de politiques de mot de passe renforcées</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                                        <span>Configuration des GPO pour durcir les postes clients</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                                        <span>Mise en œuvre de règles de pare-feu plus restrictives</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-2"></i>
+                                        <span>Proposition d'un plan de sensibilisation des utilisateurs</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-dark-700 rounded-lg p-4">
+                                <h4 class="text-lg font-semibold text-primary-400 mb-2">Rapport d'audit</h4>
+                                <div class="pdf-container rounded-lg overflow-hidden">
+                                    <div class="w-full h-full bg-dark-800 flex flex-col items-center justify-center">
+                                        <i class="fas fa-file-pdf text-6xl text-primary-500 mb-4"></i>
+                                        <p class="text-gray-400">Rapport d'audit de sécurité (PDF)</p>
+                                    </div>
+                                </div>
+                                <button class="w-full mt-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition duration-300">
+                                    Télécharger le rapport
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'rapport-lts':
+                    modalTitle.textContent = 'Rapport de stage - LTS';
+                    modalBody.innerHTML = `
+                        <div class="space-y-6">
+                            <div class="bg-dark-700 rounded-lg p-4">
+                                <h4 class="text-lg font-semibold text-primary-400 mb-2">Stage de 1ère année</h4>
+                                <p class="text-gray-400">
+                                    Rapport détaillant mes activités lors de mon stage de 6 semaines chez LTS en tant qu'assistant administrateur systèmes et réseaux.
+                                </p>
+                            </div>
+                            
+                            <div class="pdf-container rounded-lg overflow-hidden">
+                                <div class="w-full h-full bg-dark-800 flex flex-col items-center justify-center">
+                                    <i class="fas fa-file-pdf text-6xl text-primary-500 mb-4"></i>
+                                    <p class="text-gray-400">Rapport de stage LTS (PDF)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between mt-4">
+                                <button class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition duration-300">
+                                    Télécharger
+                                </button>
+                                <button class="px-4 py-2 border border-primary-600 text-primary-400 hover:bg-primary-900/30 rounded-lg transition duration-300">
+                                    Partager
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'cv-pdf':
+                    modalTitle.textContent = 'Curriculum Vitae';
+                    modalBody.innerHTML = `
+                        <div class="space-y-6">
+                            <div class="bg-dark-700 rounded-lg p-4">
+                                <p class="text-gray-400">
+                                    Mon CV complet présentant mon parcours académique, mes expériences professionnelles, 
+                                    mes compétences techniques et mes centres d'intérêt.
+                                </p>
+                            </div>
+                            
+                            <div class="pdf-container rounded-lg overflow-hidden">
+                                <!-- Remplacez le chemin ci-dessous par le chemin vers votre fichier PDF -->
+                                <iframe src="chemin/vers/votre_cv.pdf#toolbar=0&navpanes=0" type="application/pdf"></iframe>
+                            </div>
+                            
+                            <div class="flex justify-between mt-4">
+                                <a href="chemin/vers/votre_cv.pdf" download="CV_Kais_Plasse.pdf" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition duration-300">
+                                    Télécharger
+                                </a>
+                                <button class="px-4 py-2 border border-primary-600 text-primary-400 hover:bg-primary-900/30 rounded-lg transition duration-300">
+                                    Imprimer
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                // Add more cases for other modals as needed
+                default:
+                    modalTitle.textContent = 'Détails';
+                    modalBody.innerHTML = `
+                        <div class="bg-dark-700 rounded-lg p-4">
+                            <p class="text-gray-400">
+                                Contenu détaillé du document ou projet sélectionné.
+                            </p>
+                        </div>
+                    `;
+            }
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside content
+        const modal = document.getElementById('modal');
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Form submission
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Here you would normally send the form data to a server
+            alert('Merci pour votre message ! Je vous répondrai dès que possible.');
+            contactForm.reset();
+        });
+        
+        // Animate skill bars on scroll
+        function animateSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            skillBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        }
+        
+        // Intersection Observer for skill bars animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateSkillBars();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        const skillsSection = document.getElementById('skills');
+        if (skillsSection) {
+            observer.observe(skillsSection);
+        }
+    </script>
+</body>
+</html>
